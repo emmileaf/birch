@@ -8,8 +8,22 @@ if __name__ == '__main__':
     anserini_path = args.anserini_path
     index_path = args.index_path
     output_fn = args.output_path
-    folds_path = os.path.join(anserini_path, 'src', 'main', 'resources', 'fine_tuning', args.folds_file)
     cv_fold = args.cv_fold
+
+    # TODO: dynamic params
+    if cv_fold == '5':
+        folds_file = "robust04-paper2-folds.json"
+        params = ["0.9 0.5 47 9 0.30",
+                  "0.9 0.5 47 9 0.30",
+                  "0.9 0.5 47 9 0.30",
+                  "0.9 0.5 47 9 0.30",
+                  "0.9 0.5 26 8 0.30"]
+    else:
+        folds_file = "robust04-paper1-folds.json"
+        params = ["0.9 0.5 50 17 0.20",
+                  "0.9 0.5 26 8 0.30"]
+
+    folds_path = os.path.join(anserini_path, 'src', 'main', 'resources', 'fine_tuning', folds_file)
 
     fqrel = os.path.join(anserini_path, 'src', 'main', 'resources', 'topics-and-qrels', 'qrels.robust2004.txt')
     ftopic = os.path.join(anserini_path, 'src', 'main', 'resources', 'topics-and-qrels', 'topics.robust04.301-450.601-700.txt')
@@ -19,17 +33,6 @@ if __name__ == '__main__':
 
     with open(os.path.join(folds_path)) as f:
         folds = json.load(f)
-
-    # TODO: dynamic params
-    if cv_fold == '5':
-        params = ["0.9 0.5 47 9 0.30",
-                  "0.9 0.5 47 9 0.30",
-                  "0.9 0.5 47 9 0.30",
-                  "0.9 0.5 47 9 0.30",
-                  "0.9 0.5 26 8 0.30"]
-    else:
-        params = ["0.9 0.5 50 17 0.20",
-                  "0.9 0.5 26 8 0.30"]
 
     folder_idx = 1
     for topics, param in zip(folds, params):
