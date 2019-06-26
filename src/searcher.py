@@ -19,8 +19,8 @@ class Searcher:
         self.JSearcher = autoclass('io.anserini.search.SimpleSearcher')
 
 
-    def build_searcher(k1=0.9, b=0.4, fb_terms=10, fb_docs=10, original_query_weight=0.5,
-                    index_path="index/lucene-index.robust04.pos+docvectors+rawdocs", rm3=False):
+    def build_searcher(self, k1=0.9, b=0.4, fb_terms=10, fb_docs=10, original_query_weight=0.5,
+        index_path="index/lucene-index.robust04.pos+docvectors+rawdocs", rm3=False):
         searcher = self.JSearcher(self.JString(index_path))
         searcher.setBM25Similarity(k1, b)
         if not rm3:
@@ -30,7 +30,7 @@ class Searcher:
         return searcher
 
 
-    def search_document(searcher, qid2docid, qid2text, output_fn, collection='robust04', K=1000, topics=None):
+    def search_document(self, searcher, qid2docid, qid2text, output_fn, collection='robust04', K=1000, topics=None):
         qidx, didx = 1, 1
         output_dir = os.path.dirname(output_fn)
         if not os.path.exists(output_dir):
