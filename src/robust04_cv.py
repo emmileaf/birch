@@ -11,8 +11,8 @@ if __name__ == '__main__':
     folds_path = os.path.join(anserini_path, 'src', 'main', 'resources', 'fine_tuning', args.folds_file)
     cv_fold = args.cv_fold
 
-    fqrel = os.path.join(anserini_path, 'src', 'main', 'resources', 'topics-and-qrels', 'qrels.' + collection + '.txt')
-    ftopic = os.path.join(anserini_path, 'src', 'main', 'resources', 'topics-and-qrels', 'topics.' + collection + '.301-450.601-700.txt')
+    fqrel = os.path.join(anserini_path, 'src', 'main', 'resources', 'topics-and-qrels', 'qrels.robust2004.txt')
+    ftopic = os.path.join(anserini_path, 'src', 'main', 'resources', 'topics-and-qrels', 'topics.robust04.301-450.601-700.txt')
 
     qid2docid = get_relevant_docids(fqrel)
     qid2text = get_query(ftopic, collection='robust04')
