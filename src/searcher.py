@@ -4,7 +4,7 @@ from utils import parse_doc_from_index, clean_html, tokenizer, MAX_INPUT_LENGTH,
 
 import jnius_config
 import glob
-# TODO: make path dynamic
+# TODO: compatibility with different locations of anserini
 paths = glob.glob(os.path.join('../anserini/', 
                                'target',
                                'anserini-*-fatjar.jar'))
@@ -15,11 +15,6 @@ latest = max(paths, key=os.path.getctime)
 jnius_config.set_classpath(latest)
 
 from jnius import autoclass
-# try:
-#     from jnius import autoclass
-# except KeyError:
-#     os.environ['JAVA_HOME'] = '/usr/lib/jvm/java-8-oracle'
-#     from jnius import autoclass
 
 JString = autoclass('java.lang.String')
 JSearcher = autoclass('io.anserini.search.SimpleSearcher')
@@ -38,7 +33,7 @@ def build_searcher(k1=0.9, b=0.4, fb_terms=10, fb_docs=10, original_query_weight
 
 def search_document(searcher, qid2docid, qid2text, output_fn, collection='robust04', K=1000, topics=None):
     qidx, didx = 1, 1
-    with open(output_fn, 'w') as out:
+    with open(output_fn, 'w', encoding="utf-8") as out:
         if 'core' in collection:
             # Robust04 provides CV topics
             topics = qid2text
