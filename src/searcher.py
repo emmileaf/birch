@@ -2,30 +2,18 @@ import os
 import json
 from utils import parse_doc_from_index, clean_html, tokenizer, MAX_INPUT_LENGTH, chunk_sent
 
-import jnius_config
-# TODO: make path dynamic
-jnius_config.set_classpath("../Anserini/target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
+from pyserini.search import pysearch
 
-try:
-    from jnius import autoclass
-except KeyError:
-    os.environ['JAVA_HOME'] = '/usr/lib/jvm/java-8-oracle'
-    from jnius import autoclass
+def build_searcher(k1=0.9, b=0.4, fb_terms=10, fb_docs=10, original_query_weight=0.5, 
+    index_path="index/lucene-index.robust04.pos+docvectors+rawdocs", rm3=False)
 
-JString = autoclass('java.lang.String')
-JSearcher = autoclass('io.anserini.search.SimpleSearcher')
-
-
-def build_searcher(k1=0.9, b=0.4, fb_terms=10, fb_docs=10, original_query_weight=0.5,
-                index_path="index/lucene-index.robust04.pos+docvectors+rawdocs", rm3=False):
-    searcher = JSearcher(JString(index_path))
-    searcher.setBM25Similarity(k1, b)
+    searcher = pysearch.SimpleSearcher(index_path)
+    searcher.set_bm25_similarity(k1, b)
     if not rm3:
-        searcher.setDefaultReranker()
+        searcher.set_default_reranker()
     else:
-        searcher.setRM3Reranker(fb_terms, fb_docs, original_query_weight, False)
+        searcher.set_rm3_reranker(fb_terms, fb_docs, original_query_weight, False)
     return searcher
-
 
 def search_document(searcher, qid2docid, qid2text, output_fn, collection='robust04', K=1000, topics=None):
     qidx, didx = 1, 1
@@ -35,7 +23,7 @@ def search_document(searcher, qid2docid, qid2text, output_fn, collection='robust
             topics = qid2text
         for qid in topics:
             text = qid2text[qid]
-            hits = searcher.search(JString(text), K)
+            hits = searcher.search(text, K)
             for i in range(len(hits)):
                 sim = hits[i].score
                 docno = hits[i].docid

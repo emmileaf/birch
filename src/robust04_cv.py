@@ -1,5 +1,5 @@
 from utils import *
-from searcher import *
+# from searcher import *
 from args import get_args
 
 if __name__ == '__main__':
@@ -32,6 +32,12 @@ if __name__ == '__main__':
                   "0.9 0.5 26 8 0.30"]
 
     folder_idx = 1
+
+    ## import searcher helpers
+    import os, sys
+    sys.path += [os.path.join(args.anserini_path, 'src/main/python')]
+    from searcher import *
+
     for topics, param in zip(folds, params):
         print(folder_idx)
         # Extract each parameter
