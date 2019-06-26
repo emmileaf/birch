@@ -4,13 +4,21 @@ from utils import parse_doc_from_index, clean_html, tokenizer, MAX_INPUT_LENGTH,
 
 import jnius_config
 # TODO: make path dynamic
-jnius_config.set_classpath("../Anserini/target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
+paths = glob.glob(os.path.join('../anserini/', 
+                               'target',
+                               'anserini-*-fatjar.jar'))
+if not paths:
+    raise Exception("No matching jar file found in target")
 
-try:
-    from jnius import autoclass
-except KeyError:
-    os.environ['JAVA_HOME'] = '/usr/lib/jvm/java-8-oracle'
-    from jnius import autoclass
+latest = max(paths, key=os.path.getctime)
+jnius_config.set_classpath(latest)
+
+from jnius import autoclass
+# try:
+#     from jnius import autoclass
+# except KeyError:
+#     os.environ['JAVA_HOME'] = '/usr/lib/jvm/java-8-oracle'
+#     from jnius import autoclass
 
 JString = autoclass('java.lang.String')
 JSearcher = autoclass('io.anserini.search.SimpleSearcher')
