@@ -35,14 +35,15 @@ if __name__ == '__main__':
         folds = json.load(f)
 
     folder_idx = 1
+    docsearch = Searcher(anserini_path)
     for topics, param in zip(folds, params):
         print(folder_idx)
         # Extract each parameter
         k1, b, fb_terms, fb_docs, original_query_weight = map(float, param.strip().split())
-        searcher = build_searcher(k1=k1, b=b, fb_terms=fb_terms, fb_docs=fb_docs,
+        searcher = docsearch.build_searcher(k1=k1, b=b, fb_terms=fb_terms, fb_docs=fb_docs,
                                   original_query_weight=original_query_weight,
                                   index_path=index_path, rm3=True)
-        search_document(searcher, qid2docid, qid2text,
+        docsearch.search_document(searcher, qid2docid, qid2text,
                                             output_fn + str(folder_idx),
                                              'robust04', 1000, topics)
 
