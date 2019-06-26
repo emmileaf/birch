@@ -33,6 +33,9 @@ def build_searcher(k1=0.9, b=0.4, fb_terms=10, fb_docs=10, original_query_weight
 
 def search_document(searcher, qid2docid, qid2text, output_fn, collection='robust04', K=1000, topics=None):
     qidx, didx = 1, 1
+    output_dir = os.path.dirname(output_fn)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     with open(output_fn, 'w', encoding="utf-8") as out:
         if 'core' in collection:
             # Robust04 provides CV topics
