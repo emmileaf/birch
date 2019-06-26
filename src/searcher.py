@@ -3,6 +3,7 @@ import json
 from utils import parse_doc_from_index, clean_html, tokenizer, MAX_INPUT_LENGTH, chunk_sent
 
 import jnius_config
+import glob
 # TODO: make path dynamic
 paths = glob.glob(os.path.join('../anserini/', 
                                'target',
