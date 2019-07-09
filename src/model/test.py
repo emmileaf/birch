@@ -71,8 +71,10 @@ def test(args, split='test', model=None, test_dataset=None):
                 line_no += 1
         else:
             if qid_tensor is None:
+                print("qid_tensor is None")
                 qids = list(range(line_no, line_no + len(label_batch)))
             else:
+                print("qid_tensor is not None")
                 qids = qid_tensor.cpu().detach().numpy()
             assert len(qids) == len(predicted_index)
             for qid, p, l in zip(qids, predicted_index, label_batch):
@@ -89,7 +91,12 @@ def test(args, split='test', model=None, test_dataset=None):
     torch.cuda.empty_cache()
     model.train()
 
-    map, mrr, p30 = evaluate(args.trec_eval_path, predictions_file=args.predict_path, \
+    if "mb" in args.data_name:
+        map, mrr, p30 = evaluate(args.trec_eval_path, predictions_file=args.predict_path, \
                                   qrels_file=os.path.join(args.data_path,
                                                           args.qrels_file))
-    return [['map', 'mrr', 'p30'], [map, mrr, p30]]
+        return [['map', 'mrr', 'p30'], [map, mrr, p30]]
+    else:
+        print("evaluate_classification")
+        acc, pre, rec, f1 = evaluate_classification(prediction_index_list, labels)
+        return [["f1", "acc", "precision", "recall"], [f1, acc, pre, rec]]

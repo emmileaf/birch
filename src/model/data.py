@@ -27,6 +27,18 @@ class DataGenerator(object):
                 self.data.append([sim.replace('\n', ''), a.replace('\n', ''),
                                   b.replace('\n', ''), \
                                   ID.replace('\n', '')])
+        # WIP data loading for QA
+        if 'qa' in data_name:
+            print("Loading QA data")
+            self.fa = open(os.path.join(data_path, 'datasets', '{}'.format(data_name), split, 'a.toks'))
+            self.fb = open(os.path.join(data_path, 'datasets', '{}'.format(data_name), split, 'b.toks'))
+            self.fsim = open(os.path.join(data_path, 'datasets', '{}'.format(data_name), split, 'sim.txt'))
+            self.fid = open(os.path.join(data_path, 'datasets', '{}'.format(data_name), split, 'id.txt'))
+
+            for a, b, sim, ID in zip(self.fa, self.fb, self.fsim, self.fid):
+                self.data.append([sim.replace('\n', ''), a.replace('\n', ''),
+                                  b.replace('\n', ''), \
+                                  ID.replace('\n', '')])
         else:
             self.f = open(os.path.join(data_path, 'datasets', '{}.csv'.format(data_name)))
 
@@ -84,6 +96,7 @@ class DataGenerator(object):
                 qid_batch.append(qid)
                 docid_batch.append(docid)
             else:
+                print("Testing load batch for QA")
                 label, a, b, ID = instance
                 ls = ID.split()
                 if len(ls) > 1:
@@ -114,6 +127,8 @@ class DataGenerator(object):
                 label_tensor = torch.tensor(label_batch, device=self.device)
                 qid_tensor = torch.tensor(qid_batch, device=self.device)
                 docid_tensor = torch.tensor(docid_batch, device=self.device)
+                print("Batch lengths: " + ', '.join([len(label_batch), 
+                    len(qid_batch), len(docid_batch)]))
                 return (tokens_tensor, segments_tensor, mask_tensor,
                         label_tensor, qid_tensor, docid_tensor)
 
