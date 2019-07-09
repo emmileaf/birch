@@ -29,7 +29,6 @@ class DataGenerator(object):
                                   ID.replace('\n', '')])
         # WIP data loading for QA
         if 'qa' in data_name:
-            print("Loading QA data")
             self.fa = open(os.path.join(data_path, 'datasets', '{}'.format(data_name), split, 'a.toks'))
             self.fb = open(os.path.join(data_path, 'datasets', '{}'.format(data_name), split, 'b.toks'))
             self.fsim = open(os.path.join(data_path, 'datasets', '{}'.format(data_name), split, 'sim.txt'))
@@ -104,7 +103,7 @@ class DataGenerator(object):
                     docid_batch.append(docid)
                     qid_batch.append(int(qid))
                 else:
-                    print("Testing load batch for QA")
+                    # WIP qid handling for QA
                     qid = ID
                     qid_batch.append(int(float(qid)))
             combine_index, segments_ids = self.tokenize_two(a, b)
@@ -128,8 +127,6 @@ class DataGenerator(object):
                 label_tensor = torch.tensor(label_batch, device=self.device)
                 qid_tensor = torch.tensor(qid_batch, device=self.device)
                 docid_tensor = torch.tensor(docid_batch, device=self.device)
-                print("Batch lengths: " + ', '.join([str(len(label_batch)), 
-                    str(len(qid_batch)), str(len(docid_batch))]))
                 return (tokens_tensor, segments_tensor, mask_tensor,
                         label_tensor, qid_tensor, docid_tensor)
 
