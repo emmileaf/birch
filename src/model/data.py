@@ -96,16 +96,16 @@ class DataGenerator(object):
                 qid_batch.append(qid)
                 docid_batch.append(docid)
             else:
-                print("Testing load batch for QA")
                 label, a, b, ID = instance
                 ls = ID.split()
                 if len(ls) > 1:
                     qid, _, docid, _, _, _ = ls
                     docid = int(docid)
                     docid_batch.append(docid)
-                else:
                     qid = ID
-                qid_batch.append(int(qid))
+                    qid_batch.append(int(qid))
+                else:
+                    print("Testing load batch for QA, no qid or docid appended")
             combine_index, segments_ids = self.tokenize_two(a, b)
             test_batch.append(torch.tensor(combine_index))
             token_type_ids_batch.append(torch.tensor(segments_ids))
