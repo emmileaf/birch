@@ -102,10 +102,11 @@ class DataGenerator(object):
                     qid, _, docid, _, _, _ = ls
                     docid = int(docid)
                     docid_batch.append(docid)
-                    qid = ID
                     qid_batch.append(int(qid))
                 else:
-                    print("Testing load batch for QA, no qid or docid appended")
+                    print("Testing load batch for QA")
+                    qid = ID
+                    qid_batch.append(int(float(qid)))
             combine_index, segments_ids = self.tokenize_two(a, b)
             test_batch.append(torch.tensor(combine_index))
             token_type_ids_batch.append(torch.tensor(segments_ids))
