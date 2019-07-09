@@ -1,6 +1,6 @@
 import torch
 
-from .eval import evaluate
+from .eval import evaluate, evaluate_classification
 from .utils import print_scores, load_checkpoint, save_checkpoint, load_pretrained_model_tokenizer
 from .data import *
 
