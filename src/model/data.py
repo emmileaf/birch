@@ -127,8 +127,8 @@ class DataGenerator(object):
                 label_tensor = torch.tensor(label_batch, device=self.device)
                 qid_tensor = torch.tensor(qid_batch, device=self.device)
                 docid_tensor = torch.tensor(docid_batch, device=self.device)
-                print("Batch lengths: " + ', '.join([len(label_batch), 
-                    len(qid_batch), len(docid_batch)]))
+                print("Batch lengths: " + ', '.join([str(len(label_batch)), 
+                    str(len(qid_batch)), str(len(docid_batch))]))
                 return (tokens_tensor, segments_tensor, mask_tensor,
                         label_tensor, qid_tensor, docid_tensor)
 
