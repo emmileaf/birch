@@ -34,7 +34,7 @@ class Searcher:
             searcher.setRM3Reranker(fb_terms, fb_docs, original_query_weight, False)
         return searcher
 
-    def search_document(self, searcher, qid2docid, qid2text, output_fn, collection='robust04', K=1000, topics=None, cv_fold=None):
+    def search_document(self, searcher, qid2docid, qid2text, output_fn, collection='robust04', K=1000, topics=None, cv_fold=None, min_words=0):
         output_dir = os.path.dirname(output_fn)
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
@@ -60,7 +60,7 @@ class Searcher:
                         content = parse_doc_from_index(content)
                     clean_content = clean_html(content, collection=collection)
                     # tokenized_content = tokenizer.tokenize(clean_content)
-                    tokenized_content = sent_minword_tokenize(clean_content, 500)
+                    tokenized_content = sent_minword_tokenize(clean_content, min_words)
                     sentid = 0
                     for sent in tokenized_content:
                         # Split sentence if it's longer than BERT's maximum input length

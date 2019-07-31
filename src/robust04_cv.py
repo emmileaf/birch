@@ -8,6 +8,7 @@ if __name__ == '__main__':
     anserini_path = args.anserini_path
     index_path = args.index_path
     cv_fold = args.cv_fold
+    min_words = args.min_words
     output_fn = os.path.join(args.data_path, 'datasets', "robust04_" + str(cv_fold) + "cv")
 
     # TODO: dynamic params
@@ -43,7 +44,7 @@ if __name__ == '__main__':
         searcher = docsearch.build_searcher(k1=k1, b=b, fb_terms=fb_terms, fb_docs=fb_docs,
           original_query_weight=original_query_weight,index_path=index_path, rm3=True)
         docsearch.search_document(searcher, qid2docid, qid2text, output_fn + str(folder_idx),
-          'robust04', 1000, topics, cv_fold)
+          'robust04', 1000, topics, cv_fold, min_words)
 
         folder_idx += 1
 

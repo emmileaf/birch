@@ -18,9 +18,6 @@ tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 MAX_INPUT_LENGTH = 512
 
-def sent_tokenize(content):
-    return tokenizer.tokenize(content)
-
 def sent_minword_tokenize(content, lim):
     """
     Split into sentences, and join sentences until passage 

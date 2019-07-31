@@ -20,6 +20,7 @@ def get_args():
     parser.add_argument('--index_path', default='lucene-index.robust04.pos+docvectors+rawdocs', help='Path to Lucene index')
     parser.add_argument('--folds_file', default='robust04-paper2-folds.json', help='Path to Robust04 folds')
     parser.add_argument('--cv_fold', default=5)
+    parser.add_argument('--min_words', default=0)
 
     # Training
     parser.add_argument('--device', default='cpu', help='[cuda, cpu]')
