@@ -29,7 +29,7 @@ def sent_minword_tokenize(content, lim):
     tokens = []
     passage = []
     words = 0
-    for s in tokenizer.tokenize(contents):
+    for s in tokenizer.tokenize(content):
         if (words < lim) or (not passage):
             passage.append(s)
             words += len(s.split())
@@ -53,7 +53,7 @@ def window_minword_tokenize(content, lim):
     words, with each window starting at midpoint of previous window.
     """
     tokens = []
-    words = contents.split()
+    words = content.split()
     length = len(words)
     passages = (words[i:i+lim] for i in range(0, 
                 length-math.ceil(lim/2), math.ceil(lim/2)))
