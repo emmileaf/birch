@@ -60,7 +60,7 @@ class Searcher:
                         content = parse_doc_from_index(content)
                     clean_content = clean_html(content, collection=collection)
                     # tokenized_content = tokenizer.tokenize(clean_content)
-                    tokenized_content = sent_minword_tokenize((clean_content, 500)
+                    tokenized_content = sent_minword_tokenize(clean_content, 500)
                     sentid = 0
                     for sent in tokenized_content:
                         # Split sentence if it's longer than BERT's maximum input length
