@@ -8,7 +8,7 @@ if __name__ == '__main__':
     anserini_path = args.anserini_path
     index_path = args.index_path
     cv_fold = args.cv_fold
-    min_words = args.min_words
+    min_words = int(args.min_words)
     output_fn = os.path.join(args.data_path, 'datasets', "robust04_" + str(cv_fold) + "cv")
 
     # TODO: dynamic params
