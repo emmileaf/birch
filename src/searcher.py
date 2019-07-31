@@ -1,6 +1,6 @@
 import os
 import json
-from utils import parse_doc_from_index, clean_html, tokenizer, MAX_INPUT_LENGTH, chunk_sent
+from utils import parse_doc_from_index, clean_html, tokenizer, MAX_INPUT_LENGTH, chunk_sent, sent_minword_tokenize
 
 import jnius_config
 import glob
@@ -59,7 +59,8 @@ class Searcher:
                     if collection == 'robust04':
                         content = parse_doc_from_index(content)
                     clean_content = clean_html(content, collection=collection)
-                    tokenized_content = tokenizer.tokenize(clean_content)
+                    # tokenized_content = tokenizer.tokenize(clean_content)
+                    tokenized_content = sent_minword_tokenize((clean_content, 500)
                     sentid = 0
                     for sent in tokenized_content:
                         # Split sentence if it's longer than BERT's maximum input length

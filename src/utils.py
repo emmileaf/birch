@@ -18,6 +18,52 @@ tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
 MAX_INPUT_LENGTH = 512
 
+def sent_tokenize(content):
+    return tokenizer.tokenize(content)
+
+def sent_minword_tokenize(content, lim):
+    """
+    Split into sentences, and join sentences until passage 
+    surpasses a given word length.
+    """
+    tokens = []
+    passage = []
+    words = 0
+    for s in tokenizer.tokenize(contents):
+        if (words < lim) or (not passage):
+            passage.append(s)
+            words += len(s.split())
+        else:
+            token = " ".join(passage)
+            tokens.append(token)
+            passage = [s]
+            words = len(s.split())
+            
+    token = " ".join(passage)
+    if (words >= lim) or (not tokens):
+        tokens.append(token)
+    else:
+        tokens[-1] = " ".join([tokens[-1], token])
+        
+    return tokens
+
+def window_minword_tokenize(content, lim):  
+    """
+    Split into passages from overlapping windows of a fixed number of (min)
+    words, with each window starting at midpoint of previous window.
+    """
+    tokens = []
+    words = contents.split()
+    length = len(words)
+    passages = (words[i:i+lim] for i in range(0, 
+                length-math.ceil(lim/2), math.ceil(lim/2)))
+    
+    for p in passages: 
+        if (len(p) >= lim) or (not tokens): 
+            tokens.append(" ".join(p))
+        else:
+            tokens[-1] = " ".join([tokens[-1], " ".join(p)])
+    return tokens
 
 def get_query(ftopic, collection):
     qid2query = {}
